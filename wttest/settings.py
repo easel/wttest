@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'meddata',
     'rest_framework',
+    'social_auth',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -91,3 +92,39 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAdminUser'
     ]
 }
+
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.google.GoogleOAuth2Backend',
+  'social_auth.backends.contrib.github.GithubBackend',
+  'django.contrib.auth.backends.ModelBackend',
+)
+
+LOGIN_URL          = '/login/'
+LOGIN_REDIRECT_URL = '/admin/'
+LOGIN_ERROR_URL    = '/login-error/'
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+  "social_auth.context_processors.social_auth_by_type_backends",
+  "django.contrib.auth.context_processors.auth",
+)
+
+SOCIAL_AUTH_DEFAULT_USERNAME = 'new_social_auth_user'
+SOCIAL_AUTH_UID_LENGTH = 16
+SOCIAL_AUTH_ASSOCIATION_HANDLE_LENGTH = 16
+SOCIAL_AUTH_NONCE_SERVER_URL_LENGTH = 16
+SOCIAL_AUTH_ASSOCIATION_SERVER_URL_LENGTH = 16
+SOCIAL_AUTH_ASSOCIATION_HANDLE_LENGTH = 16
+
+SOCIAL_AUTH_ENABLED_BACKENDS = ('google')
+
+GOOGLE_OAUTH2_CLIENT_ID = '190568338564-8vvq5gtrsue98ff8jp1tl5k87q7j6h1f'
+GOOGLE_OAUTH2_CLIENT_SECRET = 'X32z6SU642O87mDeL2tJVs-Y'
+
+SOCIAL_AUTH_PIPELINE = (
+    'social_auth.backends.pipeline.social.social_auth_user',
+    'social_auth.backends.pipeline.social.associate_user',
+    'social_auth.backends.pipeline.social.load_extra_data',
+    'social_auth.backends.pipeline.user.update_user_details'
+)
+
+SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
